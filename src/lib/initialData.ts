@@ -12,9 +12,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '123 Main St, San Francisco',
     role: 'Software Engineer',
     department: 'IT',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👨'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -26,9 +24,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '456 Park Ave, New York',
     role: 'Product Manager',
     department: 'Product',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👩'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -40,9 +36,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '789 Queen St, Toronto',
     role: 'UX Designer',
     department: 'Design',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👨'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -54,9 +48,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '321 Oxford St, London',
     role: 'Marketing Manager',
     department: 'Marketing',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👩'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -68,9 +60,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '654 George St, Sydney',
     role: 'Sales Director',
     department: 'Sales',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👨'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -82,9 +72,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '987 Gran Via, Madrid',
     role: 'HR Manager',
     department: 'HR',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👩'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -96,9 +84,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '147 Gangnam St, Seoul',
     role: 'Finance Analyst',
     department: 'Finance',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👨'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -110,9 +96,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '258 Berliner St, Berlin',
     role: 'Operations Manager',
     department: 'Operations',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👩'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -124,9 +108,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '369 Houston Rd, Houston',
     role: 'IT Director',
     department: 'IT',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👨'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -138,9 +120,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '741 Paulista Ave, São Paulo',
     role: 'Customer Success',
     department: 'Customer Service',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👩'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -152,9 +132,7 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '852 Seattle St, Seattle',
     role: 'Software Architect',
     department: 'IT',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👨'
+    gradeLevel: ''
   },
   {
     id: uuidv4(),
@@ -166,8 +144,438 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '963 Champs-Élysées, Paris',
     role: 'Legal Counsel',
     department: 'Legal',
-    gradeLevel: '',
-    profileType: 'emoji',
-    profileImage: '👩'
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'John Smith',
+    email: 'john.smith@example.com',
+    phoneNumber: '123-456-7890',
+    country: 'United States',
+    state: 'California',
+    address: '123 Main St, San Francisco',
+    role: 'Software Engineer',
+    department: 'IT',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Sarah Johnson',
+    email: 'sarah.j@example.com',
+    phoneNumber: '234-567-8901',
+    country: 'United States',
+    state: 'New York',
+    address: '456 Park Ave, New York',
+    role: 'Product Manager',
+    department: 'Product',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Michael Chen',
+    email: 'michael.c@example.com',
+    phoneNumber: '345-678-9012',
+    country: 'Canada',
+    state: 'Ontario',
+    address: '789 Queen St, Toronto',
+    role: 'UX Designer',
+    department: 'Design',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Emma Wilson',
+    email: 'emma.w@example.com',
+    phoneNumber: '456-789-0123',
+    country: 'United Kingdom',
+    state: 'London',
+    address: '321 Oxford St, London',
+    role: 'Marketing Manager',
+    department: 'Marketing',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'James Brown',
+    email: 'james.b@example.com',
+    phoneNumber: '567-890-1234',
+    country: 'Australia',
+    state: 'New South Wales',
+    address: '654 George St, Sydney',
+    role: 'Sales Director',
+    department: 'Sales',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Lisa Garcia',
+    email: 'lisa.g@example.com',
+    phoneNumber: '678-901-2345',
+    country: 'Spain',
+    state: 'Madrid',
+    address: '987 Gran Via, Madrid',
+    role: 'HR Manager',
+    department: 'HR',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'David Kim',
+    email: 'david.k@example.com',
+    phoneNumber: '789-012-3456',
+    country: 'South Korea',
+    state: 'Seoul',
+    address: '147 Gangnam St, Seoul',
+    role: 'Finance Analyst',
+    department: 'Finance',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Anna Mueller',
+    email: 'anna.m@example.com',
+    phoneNumber: '890-123-4567',
+    country: 'Germany',
+    state: 'Berlin',
+    address: '258 Berliner St, Berlin',
+    role: 'Operations Manager',
+    department: 'Operations',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Thomas Anderson',
+    email: 'thomas.a@example.com',
+    phoneNumber: '901-234-5678',
+    country: 'United States',
+    state: 'Texas',
+    address: '369 Houston Rd, Houston',
+    role: 'IT Director',
+    department: 'IT',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Maria Silva',
+    email: 'maria.s@example.com',
+    phoneNumber: '012-345-6789',
+    country: 'Brazil',
+    state: 'São Paulo',
+    address: '741 Paulista Ave, São Paulo',
+    role: 'Customer Success',
+    department: 'Customer Service',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Robert Taylor',
+    email: 'robert.t@example.com',
+    phoneNumber: '123-234-3456',
+    country: 'United States',
+    state: 'Washington',
+    address: '852 Seattle St, Seattle',
+    role: 'Software Architect',
+    department: 'IT',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Sophie Martin',
+    email: 'sophie.m@example.com',
+    phoneNumber: '234-345-4567',
+    country: 'France',
+    state: 'Paris',
+    address: '963 Champs-Élysées, Paris',
+    role: 'Legal Counsel',
+    department: 'Legal',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'John Smith',
+    email: 'john.smith@example.com',
+    phoneNumber: '123-456-7890',
+    country: 'United States',
+    state: 'California',
+    address: '123 Main St, San Francisco',
+    role: 'Software Engineer',
+    department: 'IT',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Sarah Johnson',
+    email: 'sarah.j@example.com',
+    phoneNumber: '234-567-8901',
+    country: 'United States',
+    state: 'New York',
+    address: '456 Park Ave, New York',
+    role: 'Product Manager',
+    department: 'Product',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Michael Chen',
+    email: 'michael.c@example.com',
+    phoneNumber: '345-678-9012',
+    country: 'Canada',
+    state: 'Ontario',
+    address: '789 Queen St, Toronto',
+    role: 'UX Designer',
+    department: 'Design',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Emma Wilson',
+    email: 'emma.w@example.com',
+    phoneNumber: '456-789-0123',
+    country: 'United Kingdom',
+    state: 'London',
+    address: '321 Oxford St, London',
+    role: 'Marketing Manager',
+    department: 'Marketing',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'James Brown',
+    email: 'james.b@example.com',
+    phoneNumber: '567-890-1234',
+    country: 'Australia',
+    state: 'New South Wales',
+    address: '654 George St, Sydney',
+    role: 'Sales Director',
+    department: 'Sales',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Lisa Garcia',
+    email: 'lisa.g@example.com',
+    phoneNumber: '678-901-2345',
+    country: 'Spain',
+    state: 'Madrid',
+    address: '987 Gran Via, Madrid',
+    role: 'HR Manager',
+    department: 'HR',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'David Kim',
+    email: 'david.k@example.com',
+    phoneNumber: '789-012-3456',
+    country: 'South Korea',
+    state: 'Seoul',
+    address: '147 Gangnam St, Seoul',
+    role: 'Finance Analyst',
+    department: 'Finance',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Anna Mueller',
+    email: 'anna.m@example.com',
+    phoneNumber: '890-123-4567',
+    country: 'Germany',
+    state: 'Berlin',
+    address: '258 Berliner St, Berlin',
+    role: 'Operations Manager',
+    department: 'Operations',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Thomas Anderson',
+    email: 'thomas.a@example.com',
+    phoneNumber: '901-234-5678',
+    country: 'United States',
+    state: 'Texas',
+    address: '369 Houston Rd, Houston',
+    role: 'IT Director',
+    department: 'IT',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Maria Silva',
+    email: 'maria.s@example.com',
+    phoneNumber: '012-345-6789',
+    country: 'Brazil',
+    state: 'São Paulo',
+    address: '741 Paulista Ave, São Paulo',
+    role: 'Customer Success',
+    department: 'Customer Service',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Robert Taylor',
+    email: 'robert.t@example.com',
+    phoneNumber: '123-234-3456',
+    country: 'United States',
+    state: 'Washington',
+    address: '852 Seattle St, Seattle',
+    role: 'Software Architect',
+    department: 'IT',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Sophie Martin',
+    email: 'sophie.m@example.com',
+    phoneNumber: '234-345-4567',
+    country: 'France',
+    state: 'Paris',
+    address: '963 Champs-Élysées, Paris',
+    role: 'Legal Counsel',
+    department: 'Legal',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'John Smith',
+    email: 'john.smith@example.com',
+    phoneNumber: '123-456-7890',
+    country: 'United States',
+    state: 'California',
+    address: '123 Main St, San Francisco',
+    role: 'Software Engineer',
+    department: 'IT',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Sarah Johnson',
+    email: 'sarah.j@example.com',
+    phoneNumber: '234-567-8901',
+    country: 'United States',
+    state: 'New York',
+    address: '456 Park Ave, New York',
+    role: 'Product Manager',
+    department: 'Product',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Michael Chen',
+    email: 'michael.c@example.com',
+    phoneNumber: '345-678-9012',
+    country: 'Canada',
+    state: 'Ontario',
+    address: '789 Queen St, Toronto',
+    role: 'UX Designer',
+    department: 'Design',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Emma Wilson',
+    email: 'emma.w@example.com',
+    phoneNumber: '456-789-0123',
+    country: 'United Kingdom',
+    state: 'London',
+    address: '321 Oxford St, London',
+    role: 'Marketing Manager',
+    department: 'Marketing',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'James Brown',
+    email: 'james.b@example.com',
+    phoneNumber: '567-890-1234',
+    country: 'Australia',
+    state: 'New South Wales',
+    address: '654 George St, Sydney',
+    role: 'Sales Director',
+    department: 'Sales',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Lisa Garcia',
+    email: 'lisa.g@example.com',
+    phoneNumber: '678-901-2345',
+    country: 'Spain',
+    state: 'Madrid',
+    address: '987 Gran Via, Madrid',
+    role: 'HR Manager',
+    department: 'HR',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'David Kim',
+    email: 'david.k@example.com',
+    phoneNumber: '789-012-3456',
+    country: 'South Korea',
+    state: 'Seoul',
+    address: '147 Gangnam St, Seoul',
+    role: 'Finance Analyst',
+    department: 'Finance',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Anna Mueller',
+    email: 'anna.m@example.com',
+    phoneNumber: '890-123-4567',
+    country: 'Germany',
+    state: 'Berlin',
+    address: '258 Berliner St, Berlin',
+    role: 'Operations Manager',
+    department: 'Operations',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Thomas Anderson',
+    email: 'thomas.a@example.com',
+    phoneNumber: '901-234-5678',
+    country: 'United States',
+    state: 'Texas',
+    address: '369 Houston Rd, Houston',
+    role: 'IT Director',
+    department: 'IT',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Maria Silva',
+    email: 'maria.s@example.com',
+    phoneNumber: '012-345-6789',
+    country: 'Brazil',
+    state: 'São Paulo',
+    address: '741 Paulista Ave, São Paulo',
+    role: 'Customer Success',
+    department: 'Customer Service',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Robert Taylor',
+    email: 'robert.t@example.com',
+    phoneNumber: '123-234-3456',
+    country: 'United States',
+    state: 'Washington',
+    address: '852 Seattle St, Seattle',
+    role: 'Software Architect',
+    department: 'IT',
+    gradeLevel: ''
+  },
+  {
+    id: uuidv4(),
+    fullName: 'Sophie Martin',
+    email: 'sophie.m@example.com',
+    phoneNumber: '234-345-4567',
+    country: 'France',
+    state: 'Paris',
+    address: '963 Champs-Élysées, Paris',
+    role: 'Legal Counsel',
+    department: 'Legal',
+    gradeLevel: ''
   }
 ] 

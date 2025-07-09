@@ -21,7 +21,7 @@ import {
   StarIcon,
 } from './ui/Icons'
 import { EmptyState } from './ui/EmptyState'
-import { UsersIcon } from '@heroicons/react/24/outline'
+import { UserIcon, UsersIcon } from '@heroicons/react/24/outline'
 import { departments } from '../lib/constants'
 
 const ITEMS_PER_PAGE = 10
@@ -226,24 +226,9 @@ export const EmployeeList = () => {
               {currentEmployees.map((employee) => (
                 <tr key={employee.id} className="hover:bg-gray-50">
                   <td className="px-6 py-3">
-                    <div className="flex items-center gap-3">
-                      <div className="flex-shrink-0">
-                        {employee.profileType === 'emoji' ? (
-                          <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-                            <span className="text-lg">{employee.profileImage}</span>
-                          </div>
-                        ) : (
-                          <img
-                            className="w-8 h-8 rounded-full object-cover"
-                            src={employee.profileImage}
-                            alt=""
-                          />
-                        )}
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="text-sm font-medium text-gray-900">{employee.fullName}</div>
-                        <div className="text-sm text-gray-500">{employee.email}</div>
-                      </div>
+                    <div className="flex flex-col">
+                      <div className="text-sm font-medium text-gray-900">{employee.fullName}</div>
+                      <div className="text-sm text-gray-500">{employee.email}</div>
                     </div>
                   </td>
                   <td className="px-6 py-3">
@@ -298,6 +283,20 @@ export const EmployeeList = () => {
             >
               Previous
             </button>
+                <div className="flex items-center">
+                  {Array.from({ length: 3 }, (_, i) => i + (currentPage === 1 ? currentPage : currentPage === totalPages ? currentPage - 2 : currentPage -1)).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                      page === currentPage
+                        ? 'z-10 bg-purple-50 border-purple-500 text-purple-600'
+                        : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}</div>
             <button
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
@@ -325,7 +324,7 @@ export const EmployeeList = () => {
                 >
                   Previous
                 </button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                {Array.from({ length: 3 }, (_, i) => i + (currentPage === 1 ? currentPage : currentPage === totalPages ? currentPage - 2 : currentPage -1)).map((page) => (
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
@@ -372,7 +371,7 @@ export const EmployeeList = () => {
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                   <span className="text-xl font-medium text-purple-700">
-                    {selectedEmployee.fullName.charAt(0)}
+                    <UserIcon className="w-6 h-6" />
                   </span>
                 </div>
                 <div>

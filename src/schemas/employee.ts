@@ -32,20 +32,7 @@ export const employeeSchema = z.object({
   gradeLevel: z.string().optional(),
 })
 
-export interface EmployeeFormData {
-  id?: string
-  fullName: string
-  email: string
-  phoneNumber: string
-  country: string
-  state: string
-  address: string
-  role: string
-  department: string
-  gradeLevel: string
-  profileType: 'emoji' | 'image'
-  profileImage: string // URL for image or emoji character
-}
+export type EmployeeFormData = z.infer<typeof employeeSchema>
 
 export type ValidationErrors = {
   [K in keyof EmployeeFormData]?: string
