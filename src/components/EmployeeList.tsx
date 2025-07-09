@@ -122,7 +122,7 @@ export const EmployeeList = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row gap-4">
+      {filteredEmployees.length > 0 && <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 relative">
           <input
             type="text"
@@ -175,7 +175,7 @@ export const EmployeeList = () => {
             <span>Export</span>
           </button>
         </div>
-      </div>
+      </div>}
 
       {filteredEmployees.length === 0 ? (
         <EmptyState

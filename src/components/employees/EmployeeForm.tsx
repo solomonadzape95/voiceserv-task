@@ -77,7 +77,7 @@ export const EmployeeForm = ({ employee, onSubmit }: EmployeeFormProps) => {
   // if (locationError) return <div className="text-red-500">{locationError}</div>
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 max-h-[calc(100vh-12rem)] overflow-y-auto px-4 -mx-4">
       <Input
         label="Full Name"
         name="fullName"
