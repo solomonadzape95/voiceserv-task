@@ -6,6 +6,7 @@ import './styles/App.css'
 
 export const App = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [isAddGradeModalOpen, setIsAddGradeModalOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<'employees' | 'grades'>('employees')
 
   useEffect(() => {
@@ -31,11 +32,13 @@ export const App = () => {
           <div className="sm:flex-auto">
             <h1 className="text-2xl font-semibold text-gray-900">Staff Directory</h1>
             <p className="mt-2 text-sm text-gray-700">
-              Manage employees and grade levels in your organization.
+              {activeTab === 'employees' 
+                ? 'Manage employees and grade levels in your organization.'
+                : 'Manage grade levels for employee classifications.'}
             </p>
           </div>
-          {activeTab === 'employees' && (
-            <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+          <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+            {activeTab === 'employees' ? (
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(true)}
@@ -43,8 +46,16 @@ export const App = () => {
               >
                 Add Employee
               </button>
-            </div>
-          )}
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsAddGradeModalOpen(true)}
+                className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
+              >
+                Add Grade Level
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="mt-6 border-b border-gray-200">
@@ -79,7 +90,11 @@ export const App = () => {
         </div>
 
         <div className="mt-8">
-          {activeTab === 'employees' ? <EmployeeList /> : <GradeLevelManagement />}
+          {activeTab === 'employees' ? (
+            <EmployeeList />
+          ) : (
+            <GradeLevelManagement isModalOpen={isAddGradeModalOpen} onCloseModal={() => setIsAddGradeModalOpen(false)} />
+          )}
         </div>
       </div>
 

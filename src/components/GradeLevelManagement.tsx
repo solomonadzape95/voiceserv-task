@@ -48,7 +48,7 @@ export const GradeLevelManagement = () => {
     setIsDeleteModalOpen(true)
   }
 
-  const confirmDelete = () => {
+  const handleConfirmDelete = () => {
     if (gradeToDelete) {
       deleteGradeLevel(gradeToDelete.id)
       setGradeToDelete(null)
@@ -57,23 +57,6 @@ export const GradeLevelManagement = () => {
 
   return (
     <div className="space-y-4">
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          <h2 className="text-lg font-medium text-gray-900">Grade Levels</h2>
-          <p className="mt-2 text-sm text-gray-700">
-            Manage grade levels for employee classifications.
-          </p>
-        </div>
-        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <button
-            onClick={() => handleOpenModal()}
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
-          >
-            Add Grade Level
-          </button>
-        </div>
-      </div>
-
       {gradeLevels.length === 0 ? (
         <EmptyState
           icon={<AcademicCapIcon className="w-12 h-12 text-gray-400" />}
@@ -110,12 +93,25 @@ export const GradeLevelManagement = () => {
         </div>
       )}
 
+      {/* Add/Edit Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" onClick={handleCloseModal}>
           <div className="bg-white rounded-lg p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-lg font-medium mb-4">
-              {selectedGradeLevel ? 'Edit Grade Level' : 'Add Grade Level'}
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-xl font-bold text-gray-900">
+                {selectedGradeLevel ? 'Edit Grade Level' : 'Add Grade Level'}
+              </h2>
+              <button
+                onClick={handleCloseModal}
+                className="text-gray-400 hover:text-gray-500"
+              >
+                <span className="sr-only">Close</span>
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -131,19 +127,20 @@ export const GradeLevelManagement = () => {
                   required
                 />
               </div>
-              <div className="flex justify-end gap-2">
+
+              <div className="flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="px-4 py-2 text-gray-700 bg-gray-100 rounded hover:bg-gray-200"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                  {selectedGradeLevel ? 'Save Changes' : 'Add Grade Level'}
+                  {selectedGradeLevel ? 'Update Grade Level' : 'Add Grade Level'}
                 </button>
               </div>
             </form>
@@ -154,9 +151,9 @@ export const GradeLevelManagement = () => {
       <ConfirmationModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={confirmDelete}
+        onConfirm={handleConfirmDelete}
         title="Delete Grade Level"
-        message={`Are you sure you want to delete "${gradeToDelete?.name}"? This action cannot be undone.`}
+        message={`Are you sure you want to delete ${gradeToDelete?.name}? This action cannot be undone.`}
         confirmText="Delete"
         variant="danger"
       />
