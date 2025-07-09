@@ -12,7 +12,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '123 Main St, San Francisco',
     role: 'Software Engineer',
     department: 'IT',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👨'
   },
   {
     id: uuidv4(),
@@ -24,7 +26,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '456 Park Ave, New York',
     role: 'Product Manager',
     department: 'Product',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👩'
   },
   {
     id: uuidv4(),
@@ -36,7 +40,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '789 Queen St, Toronto',
     role: 'UX Designer',
     department: 'Design',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👨'
   },
   {
     id: uuidv4(),
@@ -48,7 +54,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '321 Oxford St, London',
     role: 'Marketing Manager',
     department: 'Marketing',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👩'
   },
   {
     id: uuidv4(),
@@ -60,7 +68,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '654 George St, Sydney',
     role: 'Sales Director',
     department: 'Sales',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👨'
   },
   {
     id: uuidv4(),
@@ -72,7 +82,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '987 Gran Via, Madrid',
     role: 'HR Manager',
     department: 'HR',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👩'
   },
   {
     id: uuidv4(),
@@ -84,7 +96,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '147 Gangnam St, Seoul',
     role: 'Finance Analyst',
     department: 'Finance',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👨'
   },
   {
     id: uuidv4(),
@@ -96,7 +110,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '258 Berliner St, Berlin',
     role: 'Operations Manager',
     department: 'Operations',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👩'
   },
   {
     id: uuidv4(),
@@ -108,7 +124,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '369 Houston Rd, Houston',
     role: 'IT Director',
     department: 'IT',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👨'
   },
   {
     id: uuidv4(),
@@ -120,7 +138,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '741 Paulista Ave, São Paulo',
     role: 'Customer Success',
     department: 'Customer Service',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👩'
   },
   {
     id: uuidv4(),
@@ -132,7 +152,9 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '852 Seattle St, Seattle',
     role: 'Software Architect',
     department: 'IT',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👨'
   },
   {
     id: uuidv4(),
@@ -144,6 +166,8 @@ export const initialEmployees: EmployeeFormData[] = [
     address: '963 Champs-Élysées, Paris',
     role: 'Legal Counsel',
     department: 'Legal',
-    gradeLevel: ''
+    gradeLevel: '',
+    profileType: 'emoji',
+    profileImage: '👩'
   }
 ] 

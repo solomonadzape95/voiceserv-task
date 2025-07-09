@@ -195,7 +195,7 @@ export const EmployeeList = () => {
             : "Get started by adding your first employee."}
         />
       ) : (
-        <div className="overflow-x-auto min-h-screen">
+        <div className="overflow-x-auto max-h-screen">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>
@@ -226,9 +226,24 @@ export const EmployeeList = () => {
               {currentEmployees.map((employee) => (
                 <tr key={employee.id} className="hover:bg-gray-50">
                   <td className="px-6 py-3">
-                    <div className="flex flex-col">
-                      <div className="text-sm font-medium text-gray-900">{employee.fullName}</div>
-                      <div className="text-sm text-gray-500">{employee.email}</div>
+                    <div className="flex items-center gap-3">
+                      <div className="flex-shrink-0">
+                        {employee.profileType === 'emoji' ? (
+                          <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+                            <span className="text-lg">{employee.profileImage}</span>
+                          </div>
+                        ) : (
+                          <img
+                            className="w-8 h-8 rounded-full object-cover"
+                            src={employee.profileImage}
+                            alt=""
+                          />
+                        )}
+                      </div>
+                      <div className="flex flex-col">
+                        <div className="text-sm font-medium text-gray-900">{employee.fullName}</div>
+                        <div className="text-sm text-gray-500">{employee.email}</div>
+                      </div>
                     </div>
                   </td>
                   <td className="px-6 py-3">
