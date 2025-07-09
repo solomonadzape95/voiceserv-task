@@ -6,27 +6,22 @@ import { ConfirmationModal } from './ui/ConfirmationModal'
 import { AcademicCapIcon } from '@heroicons/react/24/outline'
 import { inputStyles } from './EmployeeForm'
 
-export const GradeLevelManagement = () => {
-  const { gradeLevels, addGradeLevel, deleteGradeLevel } = useStore()
-  const [isModalOpen, setIsModalOpen] = useState(false)
+interface GradeLevelManagementProps {
+  isModalOpen?: boolean
+  onCloseModal?: () => void
+}
+
+export const GradeLevelManagement = ({ isModalOpen: externalModalOpen, onCloseModal }: GradeLevelManagementProps) => {
+  const { gradeLevels, addGradeLevel, updateGradeLevel, deleteGradeLevel } = useStore()
+  const [internalModalOpen, setInternalModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [selectedGradeLevel, setSelectedGradeLevel] = useState<GradeLevel | null>(null)
-  const [gradeToDelete, setGradeToDelete] = useState<GradeLevel | null>(null)
   const [name, setName] = useState('')
+  const [selectedGradeLevel, setSelectedGradeLevel] = useState<{ id: string; name: string } | null>(null)
+  const [gradeToDelete, setGradeToDelete] = useState<{ id: string; name: string } | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (selectedGradeLevel) {
-      // Since we don't have updateGradeLevel, we'll delete and add
-      deleteGradeLevel(selectedGradeLevel.id)
-      addGradeLevel(name)
-    } else {
-      addGradeLevel(name)
-    }
-    handleCloseModal()
-  }
+  const isModalOpen = externalModalOpen || internalModalOpen
 
-  const handleOpenModal = (gradeLevel?: GradeLevel) => {
+  const handleOpenModal = (gradeLevel?: { id: string; name: string }) => {
     if (gradeLevel) {
       setSelectedGradeLevel(gradeLevel)
       setName(gradeLevel.name)
@@ -34,16 +29,17 @@ export const GradeLevelManagement = () => {
       setSelectedGradeLevel(null)
       setName('')
     }
-    setIsModalOpen(true)
+    setInternalModalOpen(true)
   }
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
     setSelectedGradeLevel(null)
     setName('')
+    setInternalModalOpen(false)
+    onCloseModal?.()
   }
 
-  const handleDelete = (gradeLevel: GradeLevel) => {
+  const handleDelete = (gradeLevel: { id: string; name: string }) => {
     setGradeToDelete(gradeLevel)
     setIsDeleteModalOpen(true)
   }
@@ -52,7 +48,18 @@ export const GradeLevelManagement = () => {
     if (gradeToDelete) {
       deleteGradeLevel(gradeToDelete.id)
       setGradeToDelete(null)
+      setIsDeleteModalOpen(false)
     }
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (selectedGradeLevel) {
+      updateGradeLevel(selectedGradeLevel.id, name)
+    } else {
+      addGradeLevel(name)
+    }
+    handleCloseModal()
   }
 
   return (

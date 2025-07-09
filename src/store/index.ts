@@ -1,88 +1,100 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { v4 as uuidv4 } from 'uuid'
 import { type EmployeeFormData } from '../schemas/employee'
-
-interface GradeLevel {
-  id: string
-  name: string
-}
 
 interface StoreState {
   employees: EmployeeFormData[]
-  gradeLevels: GradeLevel[]
+  gradeLevels: { id: string; name: string }[]
   addEmployee: (employee: EmployeeFormData) => void
   updateEmployee: (employee: EmployeeFormData) => void
   deleteEmployee: (id: string) => void
   addGradeLevel: (name: string) => void
+  updateGradeLevel: (id: string, name: string) => void
   deleteGradeLevel: (id: string) => void
 }
 
-export const useStore = create<StoreState>()(
-  persist(
-    (set) => ({
-      employees: [],
-      gradeLevels: [],
-      addEmployee: (employee) =>
-        set((state) => ({
-          employees: [
-            ...state.employees,
-            {
-              ...employee,
-              id: crypto.randomUUID(),
-            },
-          ],
-        })),
-      updateEmployee: (employee) =>
-        set((state) => ({
-          employees: state.employees.map((e) => (e.id === employee.id ? employee : e)),
-        })),
-      deleteEmployee: (id) =>
-        set((state) => ({
-          employees: state.employees.filter((e) => e.id !== id),
-        })),
-      addGradeLevel: (name) =>
-        set((state) => ({
-          gradeLevels: [
-            ...state.gradeLevels,
-            {
-              id: crypto.randomUUID(),
-              name,
-            },
-          ],
-        })),
-      deleteGradeLevel: (id) =>
-        set((state) => ({
-          gradeLevels: state.gradeLevels.filter((level) => level.id !== id),
-        })),
-    }),
-    {
-      name: 'employee-storage',
-      version: 1,
-      migrate: (persistedState: any, version: number) => {
-        if (version === 0) {
-          // Migrate old grade levels to new format
-          const migratedGradeLevels = (persistedState.gradeLevels || []).map((level: any) => {
-            if (typeof level === 'object' && level.name) {
-              return {
-                id: level.id || crypto.randomUUID(),
-                name: level.name
-              }
-            }
-            return {
-              id: crypto.randomUUID(),
-              name: String(level)
-            }
-          })
+const STORAGE_KEY = 'employee-storage'
 
-          return {
-            ...persistedState,
-            gradeLevels: migratedGradeLevels
-          }
-        }
-        return persistedState
-      }
+const getInitialState = () => {
+  const storedData = localStorage.getItem(STORAGE_KEY)
+  if (storedData) {
+    try {
+      return JSON.parse(storedData)
+    } catch (e) {
+      console.error('Error parsing stored data:', e)
+      return { employees: [], gradeLevels: [], version: 1 }
     }
-  )
-)
+  }
+  return { employees: [], gradeLevels: [], version: 1 }
+}
 
-export type { GradeLevel } 
+export const useStore = create<StoreState>((set) => {
+  const initialState = getInitialState()
+  
+  const saveToStorage = (state: any) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, version: 1 }))
+  }
+
+  return {
+    employees: initialState.employees || [],
+    gradeLevels: initialState.gradeLevels || [],
+
+    addEmployee: (employee: EmployeeFormData) =>
+      set((state) => {
+        const newState = {
+          employees: [...state.employees, { ...employee, id: uuidv4() }],
+        }
+        saveToStorage({ ...state, ...newState })
+        return newState
+      }),
+
+    updateEmployee: (employee: EmployeeFormData) =>
+      set((state) => {
+        const newState = {
+          employees: state.employees.map((e) =>
+            e.id === employee.id ? employee : e
+          ),
+        }
+        saveToStorage({ ...state, ...newState })
+        return newState
+      }),
+
+    deleteEmployee: (id: string) =>
+      set((state) => {
+        const newState = {
+          employees: state.employees.filter((e) => e.id !== id),
+        }
+        saveToStorage({ ...state, ...newState })
+        return newState
+      }),
+
+    addGradeLevel: (name: string) =>
+      set((state) => {
+        const newState = {
+          gradeLevels: [...state.gradeLevels, { id: uuidv4(), name }],
+        }
+        saveToStorage({ ...state, ...newState })
+        return newState
+      }),
+
+    updateGradeLevel: (id: string, name: string) =>
+      set((state) => {
+        const newState = {
+          gradeLevels: state.gradeLevels.map((level) =>
+            level.id === id ? { ...level, name } : level
+          ),
+        }
+        saveToStorage({ ...state, ...newState })
+        return newState
+      }),
+
+    deleteGradeLevel: (id: string) =>
+      set((state) => {
+        const newState = {
+          gradeLevels: state.gradeLevels.filter((level) => level.id !== id),
+        }
+        saveToStorage({ ...state, ...newState })
+        return newState
+      }),
+  }
+}) 
