@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { EmployeeList } from './components/EmployeeList'
 import { EmployeeForm } from './components/EmployeeForm'
 import { GradeLevelManagement } from './components/GradeLevelManagement'
@@ -7,6 +7,22 @@ import './styles/App.css'
 export const App = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<'employees' | 'grades'>('employees')
+
+  useEffect(() => {
+    // Clear old storage format if exists
+    const oldStorage = localStorage.getItem('employee-storage')
+    if (oldStorage) {
+      try {
+        const data = JSON.parse(oldStorage)
+        if (!data.version) {
+          localStorage.removeItem('employee-storage')
+          window.location.reload()
+        }
+      } catch (e) {
+        localStorage.removeItem('employee-storage')
+      }
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -69,7 +85,7 @@ export const App = () => {
 
       {/* Add Employee Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg p-6 max-w-lg w-full">
             <h2 className="text-xl font-bold mb-4">Add New Employee</h2>
             <EmployeeForm onClose={() => setIsAddModalOpen(false)} />

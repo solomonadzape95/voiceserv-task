@@ -57,6 +57,30 @@ export const useStore = create<StoreState>()(
     }),
     {
       name: 'employee-storage',
+      version: 1,
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+          // Migrate old grade levels to new format
+          const migratedGradeLevels = (persistedState.gradeLevels || []).map((level: any) => {
+            if (typeof level === 'object' && level.name) {
+              return {
+                id: level.id || crypto.randomUUID(),
+                name: level.name
+              }
+            }
+            return {
+              id: crypto.randomUUID(),
+              name: String(level)
+            }
+          })
+
+          return {
+            ...persistedState,
+            gradeLevels: migratedGradeLevels
+          }
+        }
+        return persistedState
+      }
     }
   )
 )

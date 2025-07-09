@@ -3,6 +3,7 @@ import { useStore } from '../store'
 import { type EmployeeFormData } from '../schemas/employee'
 import { EmployeeForm } from './EmployeeForm'
 import { Dropdown } from './ui/Dropdown'
+import { ConfirmationModal } from './ui/ConfirmationModal'
 import {
   DotsVerticalIcon,
   EditIcon,
@@ -33,6 +34,8 @@ export const EmployeeList = () => {
   const [sortField, setSortField] = useState<SortField>('fullName')
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc')
   const [filterDepartment, setFilterDepartment] = useState('')
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [employeeToDelete, setEmployeeToDelete] = useState<EmployeeFormData | null>(null)
   
   const { employees, deleteEmployee, gradeLevels } = useStore()
   const [selectedEmployee, setSelectedEmployee] = useState<EmployeeFormData | null>(null)
@@ -74,8 +77,14 @@ export const EmployeeList = () => {
   }
 
   const handleDelete = (employee: EmployeeFormData) => {
-    if (window.confirm('Are you sure you want to delete this employee?')) {
-      deleteEmployee(employee.id!)
+    setEmployeeToDelete(employee)
+    setIsDeleteModalOpen(true)
+  }
+
+  const confirmDelete = () => {
+    if (employeeToDelete?.id) {
+      deleteEmployee(employeeToDelete.id)
+      setEmployeeToDelete(null)
     }
   }
 
@@ -331,8 +340,8 @@ export const EmployeeList = () => {
 
       {/* View Modal */}
       {isViewModalOpen && selectedEmployee && (
-        <div className="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" onClick={() => setIsViewModalOpen(false)}>
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-xl font-bold text-gray-900">Employee Details</h2>
               <button
@@ -430,8 +439,8 @@ export const EmployeeList = () => {
 
       {/* Edit Modal */}
       {isEditModalOpen && selectedEmployee && (
-        <div className="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" onClick={() => setIsEditModalOpen(false)}>
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full" onClick={(e) => e.stopPropagation()}>
             <h2 className="text-xl font-bold mb-4">Edit Employee</h2>
             <EmployeeForm
               onClose={() => setIsEditModalOpen(false)}
@@ -440,6 +449,16 @@ export const EmployeeList = () => {
           </div>
         </div>
       )}
+
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Delete Employee"
+        message={`Are you sure you want to delete ${employeeToDelete?.fullName}? This action cannot be undone.`}
+        confirmText="Delete"
+        variant="danger"
+      />
     </div>
   )
 } 

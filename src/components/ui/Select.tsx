@@ -4,6 +4,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string
   error?: string
   options: { value: string; label: string }[]
+  defaultText?: string
 }
 
 export const Select = ({
@@ -11,6 +12,7 @@ export const Select = ({
   error,
   options,
   className = '',
+  defaultText = 'Select an option',
   ...props
 }: SelectProps) => {
   return (
@@ -24,7 +26,7 @@ export const Select = ({
         } ${className}`}
         {...props}
       >
-        <option value="">Select an option</option>
+        <option value="">{defaultText}</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

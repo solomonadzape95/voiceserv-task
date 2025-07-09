@@ -1,22 +1,27 @@
 import { useState } from 'react'
 import { useStore } from '../store'
-import { GradeLevel } from '../schemas/employee'
+import type { GradeLevel } from '../store'
 import { EmptyState } from './ui/EmptyState'
+import { ConfirmationModal } from './ui/ConfirmationModal'
 import { AcademicCapIcon } from '@heroicons/react/24/outline'
+import { inputStyles } from './EmployeeForm'
 
 export const GradeLevelManagement = () => {
-  const { gradeLevels, addGradeLevel, updateGradeLevel, deleteGradeLevel } = useStore()
+  const { gradeLevels, addGradeLevel, deleteGradeLevel } = useStore()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [selectedGradeLevel, setSelectedGradeLevel] = useState<GradeLevel | null>(null)
+  const [gradeToDelete, setGradeToDelete] = useState<GradeLevel | null>(null)
   const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (selectedGradeLevel) {
-      updateGradeLevel(selectedGradeLevel.id, { name, description })
+      // Since we don't have updateGradeLevel, we'll delete and add
+      deleteGradeLevel(selectedGradeLevel.id)
+      addGradeLevel(name)
     } else {
-      addGradeLevel({ name, description })
+      addGradeLevel(name)
     }
     handleCloseModal()
   }
@@ -25,11 +30,9 @@ export const GradeLevelManagement = () => {
     if (gradeLevel) {
       setSelectedGradeLevel(gradeLevel)
       setName(gradeLevel.name)
-      setDescription(gradeLevel.description)
     } else {
       setSelectedGradeLevel(null)
       setName('')
-      setDescription('')
     }
     setIsModalOpen(true)
   }
@@ -38,25 +41,37 @@ export const GradeLevelManagement = () => {
     setIsModalOpen(false)
     setSelectedGradeLevel(null)
     setName('')
-    setDescription('')
   }
 
   const handleDelete = (gradeLevel: GradeLevel) => {
-    if (window.confirm('Are you sure you want to delete this grade level?')) {
-      deleteGradeLevel(gradeLevel.id)
+    setGradeToDelete(gradeLevel)
+    setIsDeleteModalOpen(true)
+  }
+
+  const confirmDelete = () => {
+    if (gradeToDelete) {
+      deleteGradeLevel(gradeToDelete.id)
+      setGradeToDelete(null)
     }
   }
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-lg font-medium text-gray-900">Grade Levels</h2>
-        <button
-          onClick={() => handleOpenModal()}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          Add Grade Level
-        </button>
+      <div className="sm:flex sm:items-center">
+        <div className="sm:flex-auto">
+          <h2 className="text-lg font-medium text-gray-900">Grade Levels</h2>
+          <p className="mt-2 text-sm text-gray-700">
+            Manage grade levels for employee classifications.
+          </p>
+        </div>
+        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+          <button
+            onClick={() => handleOpenModal()}
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
+          >
+            Add Grade Level
+          </button>
+        </div>
       </div>
 
       {gradeLevels.length === 0 ? (
@@ -73,7 +88,6 @@ export const GradeLevelManagement = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-sm font-medium text-gray-900">{gradeLevel.name}</h3>
-                    <p className="text-sm text-gray-500">{gradeLevel.description}</p>
                   </div>
                   <div className="flex gap-2">
                     <button
@@ -97,8 +111,8 @@ export const GradeLevelManagement = () => {
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" onClick={handleCloseModal}>
+          <div className="bg-white rounded-lg p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
             <h2 className="text-lg font-medium mb-4">
               {selectedGradeLevel ? 'Edit Grade Level' : 'Add Grade Level'}
             </h2>
@@ -112,20 +126,8 @@ export const GradeLevelManagement = () => {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={3}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className={inputStyles.base}
+                  placeholder="Enter grade level name"
                   required
                 />
               </div>
@@ -148,6 +150,16 @@ export const GradeLevelManagement = () => {
           </div>
         </div>
       )}
+
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Delete Grade Level"
+        message={`Are you sure you want to delete "${gradeToDelete?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        variant="danger"
+      />
     </div>
   )
 } 
