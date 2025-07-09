@@ -338,8 +338,8 @@ export const EmployeeList = () => {
 
       {/* View Modal */}
       {isViewModalOpen && selectedEmployee && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" onClick={() => setIsViewModalOpen(false)}>
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 " onClick={() => setIsViewModalOpen(false)}>
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full overflow-y-auto max-h-[calc(100vh-6rem)]" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-xl font-bold text-gray-900">Employee Details</h2>
               <button

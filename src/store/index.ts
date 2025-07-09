@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { v4 as uuidv4 } from 'uuid'
 import { type EmployeeFormData } from '../schemas/employee'
+import { initialEmployees } from '../lib/initialData'
 
 interface StoreState {
   employees: EmployeeFormData[]
@@ -22,10 +23,10 @@ const getInitialState = () => {
       return JSON.parse(storedData)
     } catch (e) {
       console.error('Error parsing stored data:', e)
-      return { employees: [], gradeLevels: [], version: 1 }
+      return { employees: initialEmployees, gradeLevels: [], version: 1 }
     }
   }
-  return { employees: [], gradeLevels: [], version: 1 }
+  return { employees: initialEmployees, gradeLevels: [], version: 1 }
 }
 
 export const useStore = create<StoreState>((set) => {
