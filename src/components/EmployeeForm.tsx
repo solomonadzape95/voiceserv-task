@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useStore } from '../store'
 import { type EmployeeFormData } from '../schemas/employee'
 import { fetchCountries, fetchStates } from '../services/locationService'
+import { departments } from '../lib/constants'
 
 interface EmployeeFormProps {
   onClose: () => void
@@ -71,18 +72,7 @@ export const EmployeeForm = ({ onClose, initialData }: EmployeeFormProps) => {
     loadStates()
   }, [formData.country])
 
-  const departments = [
-    'HR',
-    'Finance',
-    'IT',
-    'Marketing',
-    'Sales',
-    'Operations',
-    'R&D',
-    'Customer Service',
-    'Legal',
-    'Administration',
-  ]
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -227,7 +217,7 @@ export const EmployeeForm = ({ onClose, initialData }: EmployeeFormProps) => {
 
       <div className={inputStyles.group}>
         <label htmlFor="role" className={inputStyles.label}>
-          Role *
+          Role
         </label>
         <input
           type="text"
@@ -235,9 +225,10 @@ export const EmployeeForm = ({ onClose, initialData }: EmployeeFormProps) => {
           name="role"
           value={formData.role}
           onChange={handleChange}
-          required
           className={inputStyles.base}
-          placeholder="Software Engineer"
+          required
+          maxLength={20}
+          placeholder="Enter role (max 20 characters)"
         />
       </div>
 

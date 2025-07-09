@@ -29,12 +29,12 @@ export const Dropdown = ({ trigger, items }: DropdownProps) => {
       <div onClick={() => setIsOpen(!isOpen)}>{trigger}</div>
       
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white box-shadow-md z-10">
           <div className="py-1" role="menu">
             {items.map((item, index) => (
               <button
                 key={index}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                className="cursor-pointer w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                 onClick={() => {
                   item.onClick()
                   setIsOpen(false)

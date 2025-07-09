@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useStore } from '../store'
-import type { GradeLevel } from '../store'
 import { EmptyState } from './ui/EmptyState'
 import { ConfirmationModal } from './ui/ConfirmationModal'
 import { AcademicCapIcon } from '@heroicons/react/24/outline'

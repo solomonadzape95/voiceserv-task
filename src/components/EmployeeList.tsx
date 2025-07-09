@@ -22,6 +22,7 @@ import {
 } from './ui/Icons'
 import { EmptyState } from './ui/EmptyState'
 import { UsersIcon } from '@heroicons/react/24/outline'
+import { departments } from '../lib/constants'
 
 const ITEMS_PER_PAGE = 10
 
@@ -127,32 +128,30 @@ export const EmployeeList = () => {
     return grade?.name || 'N/A'
   }
 
-  const uniqueDepartments = [...new Set(employees.map(emp => emp.department))]
-
   return (
-    <div className="space-y-4">
-      {filteredEmployees.length > 0 && <div className="flex flex-col sm:flex-row gap-4">
+    <div className="space-y-4 min-h-screen">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1 relative">
           <input
             type="text"
             placeholder="Search employees..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 shadow-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <SearchIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
         </div>
         <div className="flex gap-2">
           <Dropdown
             trigger={
-              <button className="px-4 py-2 bg-white border rounded-lg hover:bg-gray-50 flex items-center gap-2">
+              <button className="cursor-pointer px-4 py-2 bg-white shadow-sm rounded-lg hover:bg-gray-50 flex items-center gap-2" >
                 <FilterIcon className="w-5 h-5" />
                 <span>Filter</span>
               </button>
             }
             items={[
               { label: 'All Departments', onClick: () => setFilterDepartment('') },
-              ...uniqueDepartments.map(dept => ({
+              ...departments.map(dept => ({
                 label: dept,
                 onClick: () => setFilterDepartment(dept)
               }))
@@ -160,31 +159,32 @@ export const EmployeeList = () => {
           />
           <Dropdown
             trigger={
-              <button className="px-4 py-2 bg-white border rounded-lg hover:bg-gray-50 flex items-center gap-2">
+              <button className="cursor-pointer px-4 py-2 bg-white shadow-sm rounded-lg hover:bg-gray-50 flex items-center gap-2" disabled={filteredEmployees.length === 0}>
                 <SortIcon className="w-5 h-5" />
                 <span>Sort</span>
               </button>
             }
             items={[
-              { label: 'Name (A-Z)', onClick: () => { setSortField('fullName'); setSortOrder('asc') } },
-              { label: 'Name (Z-A)', onClick: () => { setSortField('fullName'); setSortOrder('desc') } },
-              { label: 'Email (A-Z)', onClick: () => { setSortField('email'); setSortOrder('asc') } },
-              { label: 'Email (Z-A)', onClick: () => { setSortField('email'); setSortOrder('desc') } },
-              { label: 'Department (A-Z)', onClick: () => { setSortField('department'); setSortOrder('asc') } },
-              { label: 'Department (Z-A)', onClick: () => { setSortField('department'); setSortOrder('desc') } },
-              { label: 'Role (A-Z)', onClick: () => { setSortField('role'); setSortOrder('asc') } },
-              { label: 'Role (Z-A)', onClick: () => { setSortField('role'); setSortOrder('desc') } },
+              { label: 'Name (A-Z)', onClick: () => handleSort('fullName') },
+              { label: 'Name (Z-A)', onClick: () => { handleSort('fullName'); setSortOrder('desc') } },
+              { label: 'Email (A-Z)', onClick: () => handleSort('email') },
+              { label: 'Email (Z-A)', onClick: () => { handleSort('email'); setSortOrder('desc') } },
+              { label: 'Department (A-Z)', onClick: () => handleSort('department') },
+              { label: 'Department (Z-A)', onClick: () => { handleSort('department'); setSortOrder('desc') } },
+              { label: 'Role (A-Z)', onClick: () => handleSort('role') },
+              { label: 'Role (Z-A)', onClick: () => { handleSort('role'); setSortOrder('desc') } },
             ]}
           />
           <button
             onClick={handleExport}
-            className="px-4 py-2 bg-white border rounded-lg hover:bg-gray-50 flex items-center gap-2"
-          >
+            className="cursor-pointer px-4 py-2 bg-white shadow-sm rounded-lg hover:bg-gray-50 flex items-center gap-2"
+         disabled={filteredEmployees.length === 0}
+         >
             <ExportIcon className="w-5 h-5" />
             <span>Export</span>
           </button>
         </div>
-      </div>}
+      </div>
 
       {filteredEmployees.length === 0 ? (
         <EmptyState
@@ -195,9 +195,9 @@ export const EmployeeList = () => {
             : "Get started by adding your first employee."}
         />
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-h-screen">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-100">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Employee
@@ -208,7 +208,7 @@ export const EmployeeList = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Location
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48">
                   Role
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -225,28 +225,26 @@ export const EmployeeList = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {currentEmployees.map((employee) => (
                 <tr key={employee.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-3">
                     <div className="flex flex-col">
                       <div className="text-sm font-medium text-gray-900">{employee.fullName}</div>
                       <div className="text-sm text-gray-500">{employee.email}</div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-3">
                     <div className="text-sm text-gray-900">{employee.phoneNumber}</div>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="text-sm text-gray-900">{employee.country}</div>
-                    <div className="text-sm text-gray-500">{employee.state}</div>
-                    <div className="text-sm text-gray-500">{employee.address}</div>
+                  <td className="px-6 py-3">
+                    <div className="text-sm text-gray-900">{employee.state ? `${employee.state}, ` : ''}{employee.country}</div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{employee.role}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{employee.department}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{getGradeLevelName(employee.gradeLevel || '')}</td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-6 py-3 text-sm text-gray-900">{employee.role}</td>
+                  <td className="px-6 py-3 text-sm text-gray-900">{employee.department}</td>
+                  <td className="px-6 py-3 text-sm text-gray-900">{getGradeLevelName(employee.gradeLevel || '')}</td>
+                  <td className="px-6 py-3 text-right">
                     <Dropdown
                       trigger={
-                        <button className="p-1 rounded-full hover:bg-gray-100">
-                          <DotsVerticalIcon className="w-5 h-5 text-gray-500" />
+                        <button className="p-2 cursor-pointer rounded-full hover:bg-gray-100">
+                          <DotsVerticalIcon className="w-5 h-5 text-gray-500 font-bold" />
                         </button>
                       }
                       items={[

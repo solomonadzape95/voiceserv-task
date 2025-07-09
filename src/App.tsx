@@ -27,7 +27,7 @@ export const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-2xl font-semibold text-gray-900">Staff Directory</h1>
@@ -100,8 +100,8 @@ export const App = () => {
 
       {/* Add Employee Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" onClick={() => setIsAddModalOpen(false)}>
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full" onClick={(e) => {e.stopPropagation()}}>
             <h2 className="text-xl font-bold mb-4">Add New Employee</h2>
             <EmployeeForm onClose={() => setIsAddModalOpen(false)} />
           </div>
