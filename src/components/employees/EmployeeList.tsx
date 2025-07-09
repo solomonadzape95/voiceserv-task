@@ -4,6 +4,7 @@ import { Button } from '../ui/Button'
 import { Input } from '../ui/Input'
 import { Select } from '../ui/Select'
 import { Employee } from '../../types'
+import { EmptyState } from '../ui/EmptyState'
 
 export const EmployeeList = () => {
   const { employees, gradeLevels, deleteEmployee } = useStaffStore()
@@ -18,6 +19,15 @@ export const EmployeeList = () => {
       !gradeLevelFilter || employee.gradeLevel === gradeLevelFilter
     return matchesName && matchesGradeLevel
   })
+
+  if (employees.length === 0) {
+    return (
+      <EmptyState
+        title="No employees yet"
+        description="Add your first employee to get started"
+      />
+    )
+  }
 
   return (
     <div className="space-y-4">
@@ -36,6 +46,7 @@ export const EmployeeList = () => {
           value={gradeLevelFilter}
           onChange={(e) => setGradeLevelFilter(e.target.value)}
           className="w-full sm:w-48"
+          placeholder="Filter by grade"
         />
       </div>
 

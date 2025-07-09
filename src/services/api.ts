@@ -1,35 +1,62 @@
-import axios from 'axios'
-import { City } from '../types'
 
-const CITIES_API_URL = 'https://pkgstore.datahub.io/core/world-cities/world-cities_json/data/5b3dd46ad10990bca47b04b4739a02ba/world-cities_json.json'
+const BASE_URL = 'https://countriesnow.space/api/v0.1'
 
-export const fetchCitiesData = async (): Promise<City[]> => {
+interface CountriesResponse {
+  error: boolean
+  msg: string
+  data: Array<{
+    country: string
+  }>
+}
+
+interface StatesResponse {
+  error: boolean
+  msg: string
+  data: {
+    name: string
+    states: Array<{
+      name: string
+      state_code: string
+    }>
+  }
+}
+
+export const getCountries = async (): Promise<string[]> => {
   try {
-    const response = await axios.get<City[]>(CITIES_API_URL)
-    return response.data
+    const response = await fetch(`${BASE_URL}/countries`)
+    if (!response.ok) {
+      throw new Error('Failed to fetch countries')
+    }
+    const data: CountriesResponse = await response.json()
+    if (data.error) {
+      throw new Error(data.msg)
+    }
+    return data.data.map((item) => item.country).sort()
   } catch (error) {
-    console.error('Error fetching cities data:', error)
+    console.error('Error fetching countries:', error)
     return []
   }
 }
 
-export const getCountries = (cities: City[]): string[] => {
-  const uniqueCountries = new Set(cities.map((city) => city.country))
-  return Array.from(uniqueCountries).sort()
-}
-
-export const getStates = (cities: City[], country: string): string[] => {
-  const states = cities
-    .filter((city) => city.country === country)
-    .map((city) => city.admin_name)
-    .filter((state): state is string => 
-      state !== undefined && 
-      state !== null && 
-      state !== ''
-    )
-
-  // Remove duplicates and sort
-  const uniqueStates = Array.from(new Set(states)).sort()
-  
-  return uniqueStates
+export const getStates = async (country: string): Promise<string[]> => {
+  try {
+    const response = await fetch(`${BASE_URL}/countries/states`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ country }),
+    })
+    if (!response.ok) {
+      throw new Error('Failed to fetch states')
+    }
+    const data: StatesResponse = await response.json()
+    if (data.error) {
+      throw new Error(data.msg)
+    }
+    return data.data.states.map((state) => state.name).sort()
+  } catch (error) {
+    console.error('Error fetching states:', error)
+    return []
+  }
 } 

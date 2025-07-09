@@ -1,39 +1,54 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { Employee, GradeLevel } from '../types'
+import { type EmployeeFormData } from '../schemas/employee'
 
-interface StaffState {
-  employees: Employee[]
+interface GradeLevel {
+  id: string
+  name: string
+}
+
+interface StoreState {
+  employees: EmployeeFormData[]
   gradeLevels: GradeLevel[]
-  addEmployee: (employee: Employee) => void
-  updateEmployee: (id: string, employee: Employee) => void
+  addEmployee: (employee: EmployeeFormData) => void
+  updateEmployee: (employee: EmployeeFormData) => void
   deleteEmployee: (id: string) => void
-  addGradeLevel: (gradeLevel: GradeLevel) => void
+  addGradeLevel: (name: string) => void
   deleteGradeLevel: (id: string) => void
 }
 
-export const useStaffStore = create<StaffState>()(
+export const useStore = create<StoreState>()(
   persist(
     (set) => ({
       employees: [],
       gradeLevels: [],
       addEmployee: (employee) =>
         set((state) => ({
-          employees: [...state.employees, employee],
+          employees: [
+            ...state.employees,
+            {
+              ...employee,
+              id: crypto.randomUUID(),
+            },
+          ],
         })),
-      updateEmployee: (id, updatedEmployee) =>
+      updateEmployee: (employee) =>
         set((state) => ({
-          employees: state.employees.map((emp) =>
-            emp.id === id ? { ...emp, ...updatedEmployee } : emp
-          ),
+          employees: state.employees.map((e) => (e.id === employee.id ? employee : e)),
         })),
       deleteEmployee: (id) =>
         set((state) => ({
-          employees: state.employees.filter((emp) => emp.id !== id),
+          employees: state.employees.filter((e) => e.id !== id),
         })),
-      addGradeLevel: (gradeLevel) =>
+      addGradeLevel: (name) =>
         set((state) => ({
-          gradeLevels: [...state.gradeLevels, gradeLevel],
+          gradeLevels: [
+            ...state.gradeLevels,
+            {
+              id: crypto.randomUUID(),
+              name,
+            },
+          ],
         })),
       deleteGradeLevel: (id) =>
         set((state) => ({
@@ -41,7 +56,9 @@ export const useStaffStore = create<StaffState>()(
         })),
     }),
     {
-      name: 'staff-storage',
+      name: 'employee-storage',
     }
   )
-) 
+)
+
+export type { GradeLevel } 

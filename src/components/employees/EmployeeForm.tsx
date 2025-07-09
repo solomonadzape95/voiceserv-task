@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useStaffStore } from '../../store'
+import { useStore } from '@/store/index'
 import { Button } from '../ui/Button'
 import { Input } from '../ui/Input'
 import { Select } from '../ui/Select'
@@ -16,7 +16,7 @@ interface EmployeeFormProps {
 }
 
 export const EmployeeForm = ({ employee, onSubmit }: EmployeeFormProps) => {
-  const { addEmployee, updateEmployee, gradeLevels } = useStaffStore()
+  const { addEmployee, updateEmployee } = useStore()
   const [formData, setFormData] = useState<Partial<EmployeeFormData>>(
     employee || {
       fullName: '',
@@ -30,7 +30,7 @@ export const EmployeeForm = ({ employee, onSubmit }: EmployeeFormProps) => {
     }
   )
 
-  const { countries, states, loading, error: locationError } = useLocationData(
+  const { countries, states, isLoadingCountries, isLoadingStates } = useLocationData(
     formData.country || ''
   )
   const { errors, validate } = useFormValidation(employeeSchema)
@@ -45,13 +45,13 @@ export const EmployeeForm = ({ employee, onSubmit }: EmployeeFormProps) => {
 
     try {
       if (employee) {
-        updateEmployee(employee.id, formData as Employee)
+        updateEmployee(formData as EmployeeFormData)
         toast.success('Employee updated successfully')
       } else {
         addEmployee({
           ...formData,
           id: uuidv4(),
-        } as Employee)
+        } as EmployeeFormData)
         toast.success('Employee added successfully')
       }
       onSubmit()
@@ -73,8 +73,8 @@ export const EmployeeForm = ({ employee, onSubmit }: EmployeeFormProps) => {
     })
   }
 
-  if (loading) return <div>Loading...</div>
-  if (locationError) return <div className="text-red-500">{locationError}</div>
+  if (isLoadingCountries || isLoadingStates) return <div>Loading...</div>
+  // if (locationError) return <div className="text-red-500">{locationError}</div>
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -156,10 +156,7 @@ export const EmployeeForm = ({ employee, onSubmit }: EmployeeFormProps) => {
         name="gradeLevel"
         value={formData.gradeLevel || ''}
         onChange={handleChange}
-        options={gradeLevels.map((level: { id: string; name: string }) => ({
-          value: level.id,
-          label: level.name,
-        }))}
+        options={[]}
         error={errors.gradeLevel}
       />
       

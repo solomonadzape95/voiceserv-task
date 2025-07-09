@@ -1,46 +1,48 @@
 import { useState, useEffect } from 'react'
-import { fetchCitiesData, getCountries, getStates } from '@services/api'
-import { City } from '../types'
+import { getCountries, getStates } from '../services/api'
 
 export const useLocationData = (selectedCountry: string) => {
   const [countries, setCountries] = useState<string[]>([])
   const [states, setStates] = useState<string[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [citiesData, setCitiesData] = useState<City[]>([])
+  const [isLoadingCountries, setIsLoadingCountries] = useState(false)
+  const [isLoadingStates, setIsLoadingStates] = useState(false)
 
-  // Fetch cities data on mount
   useEffect(() => {
-    const loadCitiesData = async () => {
+    const fetchCountries = async () => {
+      setIsLoadingCountries(true)
       try {
-        const data = await fetchCitiesData()
-        setCitiesData(data)
-        const countryList = getCountries(data)
-        setCountries(countryList)
-        setLoading(false)
-      } catch (err) {
-        setError('Failed to load location data')
-        setLoading(false)
+        const data = await getCountries()
+        setCountries(data)
+      } catch (error) {
+        console.error('Error fetching countries:', error)
+      } finally {
+        setIsLoadingCountries(false)
       }
     }
 
-    loadCitiesData()
+    fetchCountries()
   }, [])
 
-  // Update states when country changes
   useEffect(() => {
-    if (selectedCountry && citiesData.length > 0) {
-      const stateList = getStates(citiesData, selectedCountry)
-      setStates(stateList)
-    } else {
-      setStates([])
-    }
-  }, [selectedCountry, citiesData])
+    const fetchStates = async () => {
+      if (!selectedCountry) {
+        setStates([])
+        return
+      }
 
-  return {
-    countries,
-    states,
-    loading,
-    error,
-  }
+      setIsLoadingStates(true)
+      try {
+        const data = await getStates(selectedCountry)
+        setStates(data)
+      } catch (error) {
+        console.error('Error fetching states:', error)
+      } finally {
+        setIsLoadingStates(false)
+      }
+    }
+
+    fetchStates()
+  }, [selectedCountry])
+
+  return { countries, states, isLoadingCountries, isLoadingStates }
 } 

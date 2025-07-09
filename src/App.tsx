@@ -1,80 +1,81 @@
-
-import './index.css'
 import { useState } from 'react'
-import { EmployeeList } from '@components/employees/EmployeeList'
-import { EmployeeForm } from '@components/employees/EmployeeForm'
-import { GradeLevelManagement } from '@components/grades/GradeLevelManagement'
-import { Button } from '@components/ui/Button'
-import { Toaster } from 'react-hot-toast'
+import { EmployeeList } from './components/EmployeeList'
+import { EmployeeForm } from './components/EmployeeForm'
+import { GradeLevelManagement } from './components/GradeLevelManagement'
+import './styles/App.css'
 
-function App() {
-  const [showAddEmployee, setShowAddEmployee] = useState(false)
+export const App = () => {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<'employees' | 'grades'>('employees')
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Toaster position="top-right" />
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col gap-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gray-900">Staff Directory</h1>
-            {activeTab === 'employees' && !showAddEmployee && (
-              <Button onClick={() => setShowAddEmployee(true)}>
-                Add Employee
-              </Button>
-            )}
+        <div className="sm:flex sm:items-center">
+          <div className="sm:flex-auto">
+            <h1 className="text-2xl font-semibold text-gray-900">Staff Directory</h1>
+            <p className="mt-2 text-sm text-gray-700">
+              Manage employees and grade levels in your organization.
+            </p>
           </div>
+          {activeTab === 'employees' && (
+            <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+              <button
+                type="button"
+                onClick={() => setIsAddModalOpen(true)}
+                className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
+              >
+                Add Employee
+              </button>
+            </div>
+          )}
+        </div>
 
-          <div className="flex gap-4 border-b border-gray-200">
+        <div className="mt-6 border-b border-gray-200">
+          <nav className="-mb-px flex space-x-8">
             <button
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'employees'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
               onClick={() => setActiveTab('employees')}
+              className={`
+                border-b-2 py-4 px-1 text-sm font-medium
+                ${
+                  activeTab === 'employees'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                }
+              `}
             >
               Employees
             </button>
             <button
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'grades'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
               onClick={() => setActiveTab('grades')}
+              className={`
+                border-b-2 py-4 px-1 text-sm font-medium
+                ${
+                  activeTab === 'grades'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                }
+              `}
             >
               Grade Levels
             </button>
-          </div>
+          </nav>
+        </div>
 
-          {activeTab === 'employees' ? (
-            showAddEmployee ? (
-              <div className="bg-white shadow rounded-lg p-6">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-xl font-semibold text-gray-900">
-                    Add New Employee
-                  </h2>
-                  <Button
-                    variant="secondary"
-                    onClick={() => setShowAddEmployee(false)}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-                <EmployeeForm onSubmit={() => setShowAddEmployee(false)} />
-              </div>
-            ) : (
-              <EmployeeList />
-            )
-          ) : (
-            <GradeLevelManagement />
-          )}
+        <div className="mt-8">
+          {activeTab === 'employees' ? <EmployeeList /> : <GradeLevelManagement />}
         </div>
       </div>
+
+      {/* Add Employee Modal */}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+            <h2 className="text-xl font-bold mb-4">Add New Employee</h2>
+            <EmployeeForm onClose={() => setIsAddModalOpen(false)} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
-
-export default App

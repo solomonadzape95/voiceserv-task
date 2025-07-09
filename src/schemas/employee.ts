@@ -10,6 +10,11 @@ export const employeeSchema = z.object({
     .string()
     .email('Invalid email address')
     .min(1, 'Email is required'),
+  phoneNumber: z
+    .string()
+    .min(10, 'Phone number must be at least 10 characters')
+    .max(15, 'Phone number must be less than 15 characters')
+    .regex(/^\+?[\d\s-]+$/, 'Invalid phone number format'),
   country: z.string().min(1, 'Country is required'),
   state: z.string().min(1, 'State is required'),
   address: z
