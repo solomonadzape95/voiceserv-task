@@ -137,7 +137,7 @@ export const EmployeeList = () => {
             placeholder="Search employees..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 shadow-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 shadow-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
           <SearchIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
         </div>
@@ -316,7 +316,7 @@ export const EmployeeList = () => {
                     onClick={() => setCurrentPage(page)}
                     className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                       page === currentPage
-                        ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
+                        ? 'z-10 bg-purple-50 border-purple-500 text-purple-600'
                         : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
                     }`}
                   >
@@ -355,8 +355,8 @@ export const EmployeeList = () => {
 
             <div className="space-y-6">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-xl font-medium text-blue-700">
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                  <span className="text-xl font-medium text-purple-700">
                     {selectedEmployee.fullName.charAt(0)}
                   </span>
                 </div>

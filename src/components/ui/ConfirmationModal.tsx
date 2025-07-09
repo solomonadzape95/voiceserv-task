@@ -27,7 +27,7 @@ export const ConfirmationModal = ({
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center p-4 z-50" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={onClose}>
       <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
         <h2 className="text-lg font-medium text-gray-900 mb-2">{title}</h2>
         <p className="text-sm text-gray-500 mb-6">{message}</p>

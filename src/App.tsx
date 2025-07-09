@@ -63,7 +63,7 @@ export const App = () => {
             <button
               onClick={() => setActiveTab('employees')}
               className={`
-                border-b-2 py-4 px-1 text-sm font-medium
+                border-b-2 py-4 px-1 text-sm font-medium cursor-pointer
                 ${
                   activeTab === 'employees'
                     ? 'border-blue-500 text-blue-600'
@@ -76,7 +76,7 @@ export const App = () => {
             <button
               onClick={() => setActiveTab('grades')}
               className={`
-                border-b-2 py-4 px-1 text-sm font-medium
+                border-b-2 py-4 px-1 text-sm font-medium cursor-pointer
                 ${
                   activeTab === 'grades'
                     ? 'border-blue-500 text-blue-600'
