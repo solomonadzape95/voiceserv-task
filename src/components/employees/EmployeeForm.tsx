@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useStore } from '@store/index'
 import { type EmployeeFormData } from '@schemas/employee'
-import { fetchCountries, fetchStates } from '@services/locationService'
 import { departments } from '@lib/constants'
+import { useLocationData } from '../../hooks/useLocationData'
 
 interface EmployeeFormProps {
   onClose: () => void
@@ -16,6 +16,7 @@ export const inputStyles = {
   group: "space-y-1.5",
   loading: "relative",
   loadingIndicator: "absolute right-3 top-1/2 transform -translate-y-1/2",
+  error: "text-sm text-red-600 mt-1"
 }
 
 export const EmployeeForm = ({ onClose, initialData }: EmployeeFormProps) => {
@@ -33,46 +34,14 @@ export const EmployeeForm = ({ onClose, initialData }: EmployeeFormProps) => {
       gradeLevel: '',
     }
   )
-  const [countries, setCountries] = useState<string[]>([])
-  const [states, setStates] = useState<string[]>([])
-  const [isLoadingCountries, setIsLoadingCountries] = useState(false)
-  const [isLoadingStates, setIsLoadingStates] = useState(false)
 
-  useEffect(() => {
-    const loadCountries = async () => {
-      setIsLoadingCountries(true)
-      try {
-        const data = await fetchCountries()
-        setCountries(data)
-      } catch (error) {
-        console.error('Error loading countries:', error)
-      } finally {
-        setIsLoadingCountries(false)
-      }
-    }
-    loadCountries()
-  }, [])
-
-  useEffect(() => {
-    const loadStates = async () => {
-      if (!formData.country) {
-        setStates([])
-        return
-      }
-      setIsLoadingStates(true)
-      try {
-        const data = await fetchStates(formData.country)
-        setStates(data)
-      } catch (error) {
-        console.error('Error loading states:', error)
-      } finally {
-        setIsLoadingStates(false)
-      }
-    }
-    loadStates()
-  }, [formData.country])
-
-
+  const {
+    countries,
+    states,
+    isLoadingCountries,
+    isLoadingStates,
+    error
+  } = useLocationData(formData.country)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -93,6 +62,8 @@ export const EmployeeForm = ({ onClose, initialData }: EmployeeFormProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-h-[calc(100vh-12rem)] overflow-y-auto px-4 -mx-4">
+      {error && <div className={inputStyles.error}>{error}</div>}
+      
       <div className={inputStyles.group}>
         <label htmlFor="fullName" className={inputStyles.label}>
           Full Name *
@@ -156,7 +127,7 @@ export const EmployeeForm = ({ onClose, initialData }: EmployeeFormProps) => {
             disabled={isLoadingCountries}
           >
             <option value="">Select a country</option>
-            {countries.map((country) => (
+            {countries.map((country: string) => (
               <option key={country} value={country}>
                 {country}
               </option>
@@ -185,7 +156,7 @@ export const EmployeeForm = ({ onClose, initialData }: EmployeeFormProps) => {
             disabled={!formData.country || isLoadingStates}
           >
             <option value="">Select a state</option>
-            {states.map((state) => (
+            {states.map((state: string) => (
               <option key={state} value={state}>
                 {state}
               </option>

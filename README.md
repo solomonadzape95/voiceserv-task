@@ -3,6 +3,72 @@
 ## Overview
 A modern React application for managing employees and grade levels within an organization. Built with React, TypeScript, TailwindCSS, and Zustand for state management.
 
+## Prerequisites
+- Node.js (v18 or higher)
+- npm (v9 or higher) or yarn
+- Git
+
+## Getting Started
+
+### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd voiceserv-task
+```
+
+### 2. Install Dependencies
+Using npm:
+```bash
+npm install
+```
+Or using yarn:
+```bash
+yarn install
+```
+
+### 3. Start Development Server
+Using npm:
+```bash
+npm run dev
+```
+Or using yarn:
+```bash
+yarn dev
+```
+
+The application will start on `http://localhost:5173` by default.
+
+### 4. Build for Production
+Using npm:
+```bash
+npm run build
+```
+Or using yarn:
+```bash
+yarn build
+```
+
+### 5. Preview Production Build
+Using npm:
+```bash
+npm run preview
+```
+Or using yarn:
+```bash
+yarn preview
+```
+
+## Available Scripts
+
+- `dev` - Start development server
+- `build` - Create production build
+- `preview` - Preview production build
+- `lint` - Run ESLint for code quality checks
+
+## Environment Variables
+
+No environment variables are required to run the application locally. All data is managed in the client-side state.
+
 ## Project Structure
 ```
 src/
@@ -84,12 +150,14 @@ App
 - Error handling for API failures
 
 ## Technical Stack
-- React
-- TypeScript
-- TailwindCSS
+- React 18
+- TypeScript 5
+- TailwindCSS 4
 - Zustand (State Management)
 - Zod (Validation)
-- Vite (Build Tool)
+- Vite 7
+- Headless UI
+- Hero Icons
 
 ## Best Practices Implemented
 1. **Component Organization**
@@ -124,3 +192,19 @@ App
    - Modular components
    - Separation of concerns
    - Reusable hooks and utilities
+
+## Browser Support
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+This project is licensed under the MIT License.

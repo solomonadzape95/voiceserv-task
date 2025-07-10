@@ -1,48 +1,71 @@
 import { useState, useEffect } from 'react'
-import { getCountries, getStates } from '../services/api'
+import { fetchCountries, fetchStates } from '@services/locationService'
 
-export const useLocationData = (selectedCountry: string) => {
+interface LocationData {
+  countries: string[]
+  states: string[]
+  isLoadingCountries: boolean
+  isLoadingStates: boolean
+  error: string | null
+}
+
+export const useLocationData = (selectedCountry: string): LocationData => {
   const [countries, setCountries] = useState<string[]>([])
   const [states, setStates] = useState<string[]>([])
   const [isLoadingCountries, setIsLoadingCountries] = useState(false)
   const [isLoadingStates, setIsLoadingStates] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
+  // Fetch countries on mount
   useEffect(() => {
-    const fetchCountries = async () => {
+    const loadCountries = async () => {
       setIsLoadingCountries(true)
+      setError(null)
       try {
-        const data = await getCountries()
+        const data = await fetchCountries()
         setCountries(data)
       } catch (error) {
-        console.error('Error fetching countries:', error)
+        const errorMessage = error instanceof Error ? error.message : 'Error fetching countries'
+        console.error('Error loading countries:', error)
+        setError(errorMessage)
+        setCountries([])
       } finally {
         setIsLoadingCountries(false)
       }
     }
-
-    fetchCountries()
+    loadCountries()
   }, [])
 
+  // Fetch states when country changes
   useEffect(() => {
-    const fetchStates = async () => {
+    const loadStates = async () => {
       if (!selectedCountry) {
         setStates([])
         return
       }
 
       setIsLoadingStates(true)
+      setError(null)
       try {
-        const data = await getStates(selectedCountry)
+        const data = await fetchStates(selectedCountry)
         setStates(data)
       } catch (error) {
-        console.error('Error fetching states:', error)
+        const errorMessage = error instanceof Error ? error.message : 'Error fetching states'
+        console.error('Error loading states:', error)
+        setError(errorMessage)
+        setStates([])
       } finally {
         setIsLoadingStates(false)
       }
     }
-
-    fetchStates()
+    loadStates()
   }, [selectedCountry])
 
-  return { countries, states, isLoadingCountries, isLoadingStates }
+  return {
+    countries,
+    states,
+    isLoadingCountries,
+    isLoadingStates,
+    error
+  }
 } 
