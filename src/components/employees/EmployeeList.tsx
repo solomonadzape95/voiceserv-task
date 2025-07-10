@@ -192,7 +192,7 @@ export const EmployeeList = () => {
             : "Get started by adding your first employee."}
         />
       ) : (
-        <div className="overflow-x-auto max-h-screen">
+        <div className="overflow-x-auto min-h-screen">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
               <tr>
