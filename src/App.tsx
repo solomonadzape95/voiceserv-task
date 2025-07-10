@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { EmployeeList } from './components/EmployeeList'
-import { EmployeeForm } from './components/EmployeeForm'
-import { GradeLevelManagement } from './components/GradeLevelManagement'
+import { EmployeeList } from './components/employees/EmployeeList'
+import { EmployeeForm } from './components/employees/EmployeeForm'
+import { GradeLevelManagement } from './components/grades/GradeLevelManagement'
 import './styles/App.css'
 
 export const App = () => {

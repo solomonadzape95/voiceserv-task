@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useStore } from '../store'
-import { type EmployeeFormData } from '../schemas/employee'
-import { fetchCountries, fetchStates } from '../services/locationService'
-import { departments } from '../lib/constants'
+import { useStore } from '@store/index'
+import { type EmployeeFormData } from '@schemas/employee'
+import { fetchCountries, fetchStates } from '@services/locationService'
+import { departments } from '@lib/constants'
 
 interface EmployeeFormProps {
   onClose: () => void

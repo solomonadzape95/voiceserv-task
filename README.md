@@ -1,69 +1,126 @@
-# React + TypeScript + Vite
+# Employee Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+A modern React application for managing employees and grade levels within an organization. Built with React, TypeScript, TailwindCSS, and Zustand for state management.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project Structure
+```
+src/
+├── components/         # React components
+│   ├── ui/            # Reusable UI components
+│   ├── EmployeeForm   # Employee creation/editing form
+│   ├── EmployeeList   # Employee listing and management
+│   └── GradeLevelManagement # Grade level management
+├── hooks/             # Custom React hooks
+├── lib/              # Constants and initial data
+├── schemas/          # Zod validation schemas
+├── services/         # API and external services
+├── store/            # Zustand state management
+├── styles/           # CSS and styling files
+└── types/            # TypeScript type definitions
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Architecture and Control Flow
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### State Management
+- Uses Zustand for global state management
+- Main store located in `store/index.ts`
+- Manages employee data and grade levels
+- Provides actions for CRUD operations
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Data Flow
+1. **Employee Management**
+   - Employee data stored in Zustand store
+   - CRUD operations handled through store actions
+   - Form validation using Zod schemas
+   - Location data (countries/states) fetched from external API
+
+2. **Grade Level Management**
+   - Grade levels stored alongside employee data
+   - Simple CRUD operations for grade levels
+   - Grade levels can be assigned to employees
+
+### Component Hierarchy
 ```
+App
+├── EmployeeList
+│   └── EmployeeForm (Modal)
+└── GradeLevelManagement
+```
+
+### Key Features
+1. **Employee Management**
+   - Add/Edit/Delete employees
+   - Form validation
+   - Dynamic location selection (Country/State)
+   - Role and department assignment
+   - Pagination
+   - Sorting and filtering
+
+2. **Grade Level Management**
+   - Create/Delete grade levels
+   - Assign to employees
+   - Simple interface
+
+3. **UI Components**
+   - Reusable button components
+   - Custom dropdowns
+   - Form inputs
+   - Loading states
+   - Empty states
+   - Confirmation modals
+
+### Data Validation
+- Uses Zod for schema validation
+- Validates employee data:
+  - Required fields
+  - Email format
+  - Phone number format
+  - Character limits
+
+### API Integration
+- Location data fetched from external API
+- Countries and states dynamically loaded
+- Error handling for API failures
+
+## Technical Stack
+- React
+- TypeScript
+- TailwindCSS
+- Zustand (State Management)
+- Zod (Validation)
+- Vite (Build Tool)
+
+## Best Practices Implemented
+1. **Component Organization**
+   - Reusable UI components
+   - Logical component hierarchy
+   - Clear separation of concerns
+
+2. **State Management**
+   - Centralized store
+   - Immutable state updates
+   - Type-safe actions
+
+3. **Form Handling**
+   - Controlled components
+   - Validation feedback
+   - Error handling
+
+4. **UI/UX**
+   - Responsive design
+   - Loading states
+   - Error states
+   - Empty states
+   - Confirmation dialogs
+
+5. **TypeScript**
+   - Strong typing
+   - Interface definitions
+   - Type safety
+
+6. **Code Organization**
+   - Clear file structure
+   - Modular components
+   - Separation of concerns
+   - Reusable hooks and utilities

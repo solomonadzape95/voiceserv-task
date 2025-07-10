@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { useStore } from '../store'
-import { EmptyState } from './ui/EmptyState'
-import { ConfirmationModal } from './ui/ConfirmationModal'
-import { AcademicCapIcon } from '@heroicons/react/24/outline'
-import { inputStyles } from './EmployeeForm'
+import { useStore } from '@store/index'
+import { EmptyState } from '@components/ui/EmptyState'
+import { ConfirmationModal } from '@components/ui/ConfirmationModal'
+import { AcademicIcon } from '@components/ui/Icons'
+import { inputStyles } from '@components/employees/EmployeeForm'
 
 interface GradeLevelManagementProps {
   isModalOpen?: boolean
@@ -65,7 +65,7 @@ export const GradeLevelManagement = ({ isModalOpen: externalModalOpen, onCloseMo
     <div className="space-y-4">
       {gradeLevels.length === 0 ? (
         <EmptyState
-          icon={<AcademicCapIcon className="w-12 h-12 text-gray-400" />}
+          icon={AcademicIcon}
           title="No grade levels"
           description="Get started by adding your first grade level."
         />

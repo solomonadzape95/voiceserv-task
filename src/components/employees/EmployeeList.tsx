@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react'
-import { useStore } from '../store'
-import { type EmployeeFormData } from '../schemas/employee'
+import { useStore } from '@store/index'
+import { type EmployeeFormData } from '@schemas/employee'
 import { EmployeeForm } from './EmployeeForm'
-import { Dropdown } from './ui/Dropdown'
-import { ConfirmationModal } from './ui/ConfirmationModal'
+import { Dropdown } from '@components/ui/Dropdown'
+import { ConfirmationModal } from '@components/ui/ConfirmationModal'
 import {
   DotsVerticalIcon,
   EditIcon,
@@ -13,16 +13,12 @@ import {
   FilterIcon,
   SortIcon,
   ExportIcon,
-  EmailIcon,
-  PhoneIcon,
-  LocationIcon,
-  BriefcaseIcon,
-  BuildingIcon,
-  StarIcon,
-} from './ui/Icons'
-import { EmptyState } from './ui/EmptyState'
-import { UserIcon, UsersIcon } from '@heroicons/react/24/outline'
-import { departments } from '../lib/constants'
+  UserGroupIcon,
+} from '@components/ui/Icons'
+import { EmptyState } from '@components/ui/EmptyState'
+import { departments } from '@lib/constants'
+import { Pagination } from './Pagination'
+import { EmployeeViewModal } from './EmployeeViewModal'
 
 const ITEMS_PER_PAGE = 10
 
@@ -86,6 +82,7 @@ export const EmployeeList = () => {
     if (employeeToDelete?.id) {
       deleteEmployee(employeeToDelete.id)
       setEmployeeToDelete(null)
+      setIsDeleteModalOpen(false)
     }
   }
 
@@ -178,8 +175,8 @@ export const EmployeeList = () => {
           <button
             onClick={handleExport}
             className="cursor-pointer px-4 py-2 bg-white shadow-sm rounded-lg hover:bg-gray-50 flex items-center gap-2"
-         disabled={filteredEmployees.length === 0}
-         >
+            disabled={filteredEmployees.length === 0}
+          >
             <ExportIcon className="w-5 h-5" />
             <span>Export</span>
           </button>
@@ -188,7 +185,7 @@ export const EmployeeList = () => {
 
       {filteredEmployees.length === 0 ? (
         <EmptyState
-          icon={<UsersIcon className="w-12 h-12 text-gray-400" />}
+          icon={UserGroupIcon}
           title={searchTerm || filterDepartment ? "No matching employees" : "No employees"}
           description={searchTerm || filterDepartment 
             ? "Try adjusting your search or filters to find what you're looking for."
@@ -273,204 +270,46 @@ export const EmployeeList = () => {
         </div>
       )}
 
-      {totalPages > 1 && (
-        <div className="flex justify-between items-center px-6 py-3 bg-white border-t border-gray-200">
-          <div className="flex-1 flex justify-between sm:hidden">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400"
-            >
-              Previous
-            </button>
-                <div className="flex items-center">
-                  {Array.from({ length: 3 }, (_, i) => i + (currentPage === 1 ? currentPage : currentPage === totalPages ? currentPage - 2 : currentPage -1)).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                      page === currentPage
-                        ? 'z-10 bg-purple-50 border-purple-500 text-purple-600'
-                        : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}</div>
-            <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400"
-            >
-              Next
-            </button>
-          </div>
-          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-gray-700">
-                Showing <span className="font-medium">{startIndex + 1}</span> to{' '}
-                <span className="font-medium">
-                  {Math.min(endIndex, filteredEmployees.length)}
-                </span>{' '}
-                of <span className="font-medium">{filteredEmployees.length}</span> results
-              </p>
-            </div>
-            <div>
-              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                <button
-                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400"
-                >
-                  Previous
-                </button>
-                {Array.from({ length: 3 }, (_, i) => i + (currentPage === 1 ? currentPage : currentPage === totalPages ? currentPage - 2 : currentPage -1)).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                      page === currentPage
-                        ? 'z-10 bg-purple-50 border-purple-500 text-purple-600'
-                        : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
-                <button
-                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                  disabled={currentPage === totalPages}
-                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400"
-                >
-                  Next
-                </button>
-              </nav>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* View Modal */}
-      {isViewModalOpen && selectedEmployee && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 " onClick={() => setIsViewModalOpen(false)}>
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full overflow-y-auto max-h-[calc(100vh-6rem)]" onClick={(e) => e.stopPropagation()}>
-            <div className="flex justify-between items-start mb-6">
-              <h2 className="text-xl font-bold text-gray-900">Employee Details</h2>
-              <button
-                onClick={() => setIsViewModalOpen(false)}
-                className="text-gray-400 hover:text-gray-500"
-              >
-                <span className="sr-only">Close</span>
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                  <span className="text-xl font-medium text-purple-700">
-                    <UserIcon className="w-6 h-6" />
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-medium text-gray-900">{selectedEmployee.fullName}</h3>
-                  <p className="text-sm text-gray-500">{selectedEmployee.role}</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-6">
-                <div className="flex items-center gap-3">
-                  <EmailIcon className="w-5 h-5 text-gray-400" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Email</p>
-                    <p className="text-sm text-gray-900">{selectedEmployee.email}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <PhoneIcon className="w-5 h-5 text-gray-400" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Phone</p>
-                    <p className="text-sm text-gray-900">{selectedEmployee.phoneNumber}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <LocationIcon className="w-5 h-5 text-gray-400" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Location</p>
-                    <p className="text-sm text-gray-900">
-                      {selectedEmployee.address}
-                      <br />
-                      {selectedEmployee.state}, {selectedEmployee.country}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <BriefcaseIcon className="w-5 h-5 text-gray-400" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Role</p>
-                    <p className="text-sm text-gray-900">{selectedEmployee.role}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <BuildingIcon className="w-5 h-5 text-gray-400" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Department</p>
-                    <p className="text-sm text-gray-900">{selectedEmployee.department}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <StarIcon className="w-5 h-5 text-gray-400" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Grade Level</p>
-                    <p className="text-sm text-gray-900">
-                      {getGradeLevelName(selectedEmployee.gradeLevel || '')}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-8 flex justify-end">
-              <button
-                onClick={() => setIsViewModalOpen(false)}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Edit Modal */}
-      {isEditModalOpen && selectedEmployee && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" onClick={() => setIsEditModalOpen(false)}>
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-xl font-bold mb-4">Edit Employee</h2>
-            <EmployeeForm
-              onClose={() => setIsEditModalOpen(false)}
-              initialData={selectedEmployee}
-            />
-          </div>
-        </div>
-      )}
-
-      <ConfirmationModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={confirmDelete}
-        title="Delete Employee"
-        message={`Are you sure you want to delete ${employeeToDelete?.fullName}? This action cannot be undone.`}
-        confirmText="Delete"
-        variant="danger"
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        totalItems={filteredEmployees.length}
+        onPageChange={setCurrentPage}
       />
+
+      {isViewModalOpen && selectedEmployee && (
+        <EmployeeViewModal
+          employee={selectedEmployee}
+          onClose={() => setIsViewModalOpen(false)}
+          getGradeLevelName={getGradeLevelName}
+        />
+      )}
+
+      {isEditModalOpen && selectedEmployee && (
+        <EmployeeForm
+          initialData={selectedEmployee}
+          onClose={() => {
+            setIsEditModalOpen(false)
+            setSelectedEmployee(null)
+          }}
+        />
+      )}
+
+      {isDeleteModalOpen && employeeToDelete && (
+        <ConfirmationModal
+          isOpen={isDeleteModalOpen}
+          title="Delete Employee"
+          message={`Are you sure you want to delete ${employeeToDelete.fullName}? This action cannot be undone.`}
+          confirmText="Delete"
+          onConfirm={confirmDelete}
+          onClose={() => {
+            setIsDeleteModalOpen(false)
+            setEmployeeToDelete(null)
+          }}
+        />
+      )}
     </div>
   )
 } 

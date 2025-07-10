@@ -1,23 +1,17 @@
-import { FolderIcon } from '@heroicons/react/24/outline'
+import { EmptyIcon } from './Icons'
 
 interface EmptyStateProps {
   title: string
   description: string
-  icon?: React.ReactNode
+  icon?: React.ComponentType<{ className?: string }>
 }
 
-export const EmptyState = ({
-  title,
-  description,
-  icon = <FolderIcon className="w-12 h-12 text-gray-400" />,
-}: EmptyStateProps) => {
+export const EmptyState = ({ title, description, icon: Icon = EmptyIcon }: EmptyStateProps) => {
   return (
     <div className="text-center py-12">
-      <div className="flex justify-center">
-        {icon}
-      </div>
-      <h3 className="mt-4 text-lg font-medium text-gray-900">{title}</h3>
-      <p className="mt-2 text-sm text-gray-500">{description}</p>
+      <Icon className="mx-auto h-12 w-12 text-gray-400" />
+      <h3 className="mt-2 text-sm font-semibold text-gray-900">{title}</h3>
+      <p className="mt-1 text-sm text-gray-500">{description}</p>
     </div>
   )
 } 
