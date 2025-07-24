@@ -31,7 +31,7 @@ const getInitialState = () => {
 export const useStore = create<StoreState>((set) => {
   const initialState = getInitialState()
   
-  const saveToStorage = (state: any) => {
+  const saveToStorage = (state: StoreState) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, version: 1 }))
   }
 
